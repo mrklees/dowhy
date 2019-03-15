@@ -12,7 +12,8 @@ class CausalGraph:
                  graph=None,
                  common_cause_names=None,
                  instrument_names=None,
-                 observed_node_names=None):
+                 observed_node_names=None,
+                 unobserved_common_cause=True):
         self.treatment_name = parse_state(treatment_name)
         self.outcome_name = parse_state(outcome_name)
         instrument_names = parse_state(instrument_names)
@@ -65,7 +66,8 @@ class CausalGraph:
             raise ValueError
 
         self._graph = self.add_node_attributes(observed_node_names)
-        self._graph = self.add_unobserved_common_cause(observed_node_names)
+        if unobserved_common_cause: 
+            self._graph = self.add_unobserved_common_cause(observed_node_names)
 
     def view_graph(self, layout="dot"):
         out_filename = "causal_model.png"
